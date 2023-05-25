@@ -1,0 +1,10 @@
+{
+  "name": "futuristicComboLock-Editor",
+  "references": [
+    "futuristicComboLock"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": []
+}
