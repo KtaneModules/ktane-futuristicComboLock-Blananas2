@@ -14,7 +14,13 @@ MonoBehaviour:
   id: futuristicComboLock
   title: Futuristic Combo Lock
   author: ferd
-  description: Wait, you rotate that thing with buttons? We can do better.
+  description: '===DEVELOPER DETECTIVE===
+
+    A member of our community has anonymously created a module! Can you guess who
+    it is?
+
+
+    Module ID: futuristicComboLock'
   version: 1.0
   outputFolder: build
-  previewImage: {fileID: 0}
+  previewImage: {fileID: 2800000, guid: b97f1b8965796ff40bcc3439a12ee0a5, type: 3}

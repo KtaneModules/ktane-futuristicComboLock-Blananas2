@@ -97,7 +97,7 @@ public class futuristicComboLockScript : MonoBehaviour {
    }
 
    string ConvertPortPlates (string P) {
-      if (P.Length == 0) { return ""; }
+      if (P.Length == 0) { return "0"; }
       string[] X = { "Parallel,Serial", "Parallel", "Serial", "DVI,PS2,RJ45,StereoRCA", "DVI,PS2,StereoRCA", "PS2,RJ45,StereoRCA", "DVI,RJ45,StereoRCA", "DVI,PS2,RJ45", "PS2,StereoRCA", "DVI,StereoRCA", "RJ45,StereoRCA", "DVI,PS2", "PS2,RJ45", "DVI,RJ45", "StereoRCA", "PS2", "DVI", "RJ45", "" };
       string[] N = { "27", "18", "16", "49", "34", "36", "37", "35", "23", "25", "28", "21", "26", "24", "14", "12", "13", "15", "0" };
       string S = "";
