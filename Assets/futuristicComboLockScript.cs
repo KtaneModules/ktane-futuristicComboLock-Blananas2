@@ -72,8 +72,9 @@ public class futuristicComboLockScript : MonoBehaviour {
       Debug.LogFormat("[Futuristic Combo Lock #{0}] Lit indicators on the bomb: {1}", ModuleID, (Lit.Length == 0 ? "None" : Lit.Join(", ")));
       Debug.LogFormat("[Futuristic Combo Lock #{0}] Unlit indicators on the bomb: {1}", ModuleID, (Unlit.Length == 0 ? "None" : Unlit.Join(", ")));
       string[][] IndividualPlates = Bomb.GetPortPlates().ToArray();
+      int PlateCount = Bomb.GetPortPlateCount();
       string AllPlates = IndividualPlates.Select(i => i.Join(",")).Join(";");
-      DigitSequence += ConvertPortPlates(AllPlates);
+      DigitSequence += ConvertPortPlates(AllPlates, PlateCount);
       Debug.LogFormat("[Futuristic Combo Lock #{0}] Port plates on the bomb: {1}", ModuleID, (IndividualPlates.Select(i => i.Join(", ")).Join("; ")));
       string SerialNumber = Bomb.GetSerialNumber();
       DigitSequence += ConvertSerialNumber(SerialNumber);
@@ -96,8 +97,8 @@ public class futuristicComboLockScript : MonoBehaviour {
       return S;
    }
 
-   string ConvertPortPlates (string P) {
-      if (P.Length == 0) { return ""; }
+   string ConvertPortPlates (string P, int O) {
+      if (O == 0) { return ""; }
       string[] X = { "Parallel,Serial", "Parallel", "Serial", "DVI,PS2,RJ45,StereoRCA", "DVI,PS2,StereoRCA", "PS2,RJ45,StereoRCA", "DVI,RJ45,StereoRCA", "DVI,PS2,RJ45", "PS2,StereoRCA", "DVI,StereoRCA", "RJ45,StereoRCA", "DVI,PS2", "PS2,RJ45", "DVI,RJ45", "StereoRCA", "PS2", "DVI", "RJ45", "" };
       string[] N = { "27", "18", "16", "49", "34", "36", "37", "35", "23", "25", "28", "21", "26", "24", "14", "12", "13", "15", "0" };
       string S = "";
@@ -246,10 +247,12 @@ public class futuristicComboLockScript : MonoBehaviour {
       if (GivenSequence == "" || ModuleSolved) { return; }
       Inputting = false;
       if (GivenSequence != CorrectSequence) {
+         Debug.LogFormat("<Futuristic Combo Lock #{0}> Incorrect submission: {1}", ModuleID, GivenSequence);
          Audio.PlaySoundAtTransform("dial_reset", transform);
          GivenSequence = "";
          StartCoroutine(Spin());
       } else {
+         Debug.LogFormat("[Futuristic Combo Lock #{0}] Correct combination submitted. Module solved.", ModuleID);
          Audio.PlaySoundAtTransform("unlock", transform);
          GetComponent<KMBombModule>().HandlePass();
          ModuleSolved = true;
