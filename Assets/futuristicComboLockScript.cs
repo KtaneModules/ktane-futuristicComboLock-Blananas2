@@ -250,6 +250,9 @@ public class futuristicComboLockScript : MonoBehaviour {
          Debug.LogFormat("<Futuristic Combo Lock #{0}> Incorrect submission: {1}", ModuleID, GivenSequence);
          Audio.PlaySoundAtTransform("dial_reset", transform);
          GivenSequence = "";
+         for (int S = 0; S < 10; S++) {
+            Shading[S] = -1;
+         }
          StartCoroutine(Spin());
       } else {
          Debug.LogFormat("[Futuristic Combo Lock #{0}] Correct combination submitted. Module solved.", ModuleID);
