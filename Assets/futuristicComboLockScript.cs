@@ -40,7 +40,7 @@ public class futuristicComboLockScript : MonoBehaviour {
    }
 
    void Start () {
-      Number = Rnd.Range(0, 99);
+      Number = Rnd.Range(0, 100);
       Digits.text = Number.ToString("D2");
       Debug.LogFormat("[Futuristic Combo Lock #{0}] Digits are {1}.", ModuleID, Number.ToString("D2"));
       StartCoroutine(Spin());
