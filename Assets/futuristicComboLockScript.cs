@@ -21,7 +21,9 @@ public class futuristicComboLockScript : MonoBehaviour {
 
    private int Number;
    private string CorrectSequence = "";
+   private string ConvertedDigits = "";
    private bool Inputting = false;
+   private bool ForceSolved = false;
    private string GivenSequence = "";
    private int[] Shading = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
 
@@ -83,7 +85,7 @@ public class futuristicComboLockScript : MonoBehaviour {
       Debug.LogFormat("[Futuristic Combo Lock #{0}] Last digit on the module: {1}", ModuleID, Number % 10);
       Debug.LogFormat("[Futuristic Combo Lock #{0}] The long sequence of digits is {1}.", ModuleID, DigitSequence);
       Debug.LogFormat("[Futuristic Combo Lock #{0}] The back and forth conversion went as follows:", ModuleID);
-      string ConvertedDigits = ConvertDigits(DigitSequence);
+      ConvertedDigits = ConvertDigits(DigitSequence);
       Debug.LogFormat("[Futuristic Combo Lock #{0}] The final combination is {1}.", ModuleID, ConvertedDigits.Join(", "));
       CorrectSequence = FormInput(ConvertedDigits);
    }
@@ -295,4 +297,75 @@ public class futuristicComboLockScript : MonoBehaviour {
          }
       }
    }
+
+    //twitch plays
+    #pragma warning disable 414
+    private readonly string TwitchHelpMessage = @"!{0} submit 12345 [Submits the 5-digit sequence of 12345]";
+    #pragma warning restore 414
+    IEnumerator ProcessTwitchCommand(string command)
+    {
+        string[] parameters = command.Split(' ');
+        if (Regex.IsMatch(parameters[0], @"^\s*submit\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
+        {
+            if (parameters.Length > 2)
+                yield return "sendtochaterror Too many parameters!";
+            else if (parameters.Length == 1)
+                yield return "sendtochaterror Please specify a 5-digit sequence to submit!";
+            else
+            {
+                if (parameters[1].Length != 5)
+                {
+                    yield return "sendtochaterror The sequence of digits must be 5-digits long!";
+                    yield break;
+                }
+                for (int i = 0; i < parameters[1].Length; i++)
+                {
+                    if (!parameters[1][i].EqualsAny('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'))
+                    {
+                        yield return "sendtochaterror The specified digit '" + parameters[1][i] + "' is invalid!";
+                        yield break;
+                    }
+                }
+                yield return null;
+                int cur = int.Parse(parameters[1][0].ToString());
+                Wedges[cur].OnInteract();
+                yield return new WaitForSeconds(.1f);
+                for (int i = 0; i < 4; i++)
+                {
+                    int target = int.Parse(parameters[1][i + 1].ToString());
+                    if (i % 2 == 0)
+                        cur++;
+                    else
+                        cur--;
+                    if (cur > 9)
+                        cur = 0;
+                    else if (cur < 0)
+                        cur = 9;
+                    while (cur != target)
+                    {
+                        Wedges[cur].OnHighlight();
+                        yield return new WaitForSeconds(.1f);
+                        if (i % 2 == 0)
+                            cur++;
+                        else
+                            cur--;
+                        if (cur > 9)
+                            cur = 0;
+                        else if (cur < 0)
+                            cur = 9;
+                    }
+                    Wedges[cur].OnHighlight();
+                    yield return new WaitForSeconds(.4f);
+                }
+                if (Application.isEditor || ForceSolved)
+                    ModuleSelectable.OnDefocus();
+            }
+        }
+    }
+
+    IEnumerator TwitchHandleForcedSolve()
+    {
+        ForceSolved = true;
+        yield return ProcessTwitchCommand("submit " + ConvertedDigits);
+    }
 }
