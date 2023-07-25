@@ -329,7 +329,7 @@ public class futuristicComboLockScript : MonoBehaviour {
                 yield return null;
                 int cur = int.Parse(parameters[1][0].ToString());
                 Wedges[cur].OnInteract();
-                yield return new WaitForSeconds(.1f);
+                yield return new WaitForSeconds(.05f);
                 for (int i = 0; i < 4; i++)
                 {
                     int target = int.Parse(parameters[1][i + 1].ToString());
@@ -344,7 +344,7 @@ public class futuristicComboLockScript : MonoBehaviour {
                     while (cur != target)
                     {
                         Wedges[cur].OnHighlight();
-                        yield return new WaitForSeconds(.1f);
+                        yield return new WaitForSeconds(.05f);
                         if (i % 2 == 0)
                             cur++;
                         else
@@ -355,7 +355,7 @@ public class futuristicComboLockScript : MonoBehaviour {
                             cur = 9;
                     }
                     Wedges[cur].OnHighlight();
-                    yield return new WaitForSeconds(.4f);
+                    yield return new WaitForSeconds(.05f);
                 }
                 if (Application.isEditor || ForceSolved)
                     ModuleSelectable.OnDefocus();
