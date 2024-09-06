@@ -77,7 +77,7 @@ public class futuristicComboLockScript : MonoBehaviour {
       int PlateCount = Bomb.GetPortPlateCount();
       string AllPlates = IndividualPlates.Select(i => i.Join(",")).Join(";");
       DigitSequence += ConvertPortPlates(AllPlates, PlateCount);
-      Debug.LogFormat("[Futuristic Combo Lock #{0}] Port plates on the bomb: {1}", ModuleID, IndividualPlates.Select(i => "[" + (i.Length == 0 ? "Empty" : i.Join(" ")) + "]").Join(" "));
+      Debug.LogFormat("[Futuristic Combo Lock #{0}] Port plates on the bomb: {1}", ModuleID, (IndividualPlates.Length == 0 ? "None" : IndividualPlates.Select(i => "[" + (i.Length == 0 ? "Empty" : i.Join(" ")) + "]").Join(" ")));
       string SerialNumber = Bomb.GetSerialNumber();
       DigitSequence += ConvertSerialNumber(SerialNumber);
       Debug.LogFormat("[Futuristic Combo Lock #{0}] Serial Number on the bomb: {1}", ModuleID, SerialNumber);
